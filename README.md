@@ -17,8 +17,8 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 
 ## Differences from AudioKit Keyboard
 
-- 'borderWidth' and 'borderColor' for customizable border thickness and color
-- 'keyLabelMode' for flexible labeling (letters, octave numbers, solfege, etc.)
+- `borderWidth` and `borderColor` for customizable border thickness and color
+- `keyLabelMode` for flexible labeling (letters, octave numbers, solfege, etc.)
 
 ## Goals
 
