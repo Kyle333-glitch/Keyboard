@@ -5,6 +5,8 @@
 
 ![keyboard-demo](https://user-images.githubusercontent.com/13122/188524839-3864fe14-cc34-4bab-852d-6c8b565e0f05.png)
 
+*Based on [AudioKit Keyboard](https://github.com/AudioKit/Keyboard)*
+
 Keyboard aims to be an easy-to-use musical keyboard with:
 
 - multi-touch interface
