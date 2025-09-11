@@ -13,12 +13,21 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 - accurate note name labels on the piano keys given the musical key
 - stylized keys in any color
 - any number of notes, not just limited to octaves
+- compatible with Swift Playgrounds
+
+## Differences from AudioKit Keyboard
+
+- 'borderWidth' and 'borderColor' for customizable border thickness and color
+- 'keyLabelMode' for flexible labeling (letters, octave numbers, solfege, etc.)
 
 ## Goals
 
 - Good user interface
 - Good performance. We rely on SwiftUI's drag gestures
-
+  
 ## Install
 
 Install using Swift Package Manager.
+In Swift Playgrounds,
+1. Add Swift Package
+2. Paste `https://github.com/Kyle333-glitch/Keyboard` into the link field
