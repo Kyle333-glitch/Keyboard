@@ -3,6 +3,24 @@
 import SwiftUI
 import Tonic
 
+public enum KeyLabelMode {
+    case none
+
+    case lettersWhite
+    case lettersBlack
+    case lettersAll
+
+    case lettersWhiteWithOctave
+    case lettersBlackWithOctave
+    case lettersAllWithOctave
+
+    case onlyC
+    case onlyMiddleC
+    case onlyDo
+    case onlyMiddleCDo
+    case solfege
+    
+}
 /// A default visual representation for a key.
 public struct KeyboardKey: View {
     /// Initialize the keyboard key
@@ -12,6 +30,9 @@ public struct KeyboardKey: View {
     ///   - text: Label on the key
     ///   - color: Color of the activated key
     ///   - isActivatedExternally: Usually used for representing incoming MIDI
+    ///   - borderWidth: Width of border around each individual key
+    ///   - borderColor: Color of borderWidth
+    ///   - labelMode: How and what keys should be labeled
     public init(pitch: Pitch,
                 isActivated: Bool,
                 text: String = "unset",
@@ -20,27 +41,29 @@ public struct KeyboardKey: View {
                 pressedColor: Color = .red,
                 flatTop: Bool = false,
                 alignment: Alignment = .bottom,
-                isActivatedExternally: Bool = false)
+                isActivatedExternally: Bool = false,
+                borderWidth: CGFloat = 0,
+                borderColor: Color = Color.black,
+                labelMode: KeyLabelMode = .none)
     {
         self.pitch = pitch
         self.isActivated = isActivated
         if text == "unset" {
-            var newText = ""
-            if pitch.note(in: .C).noteClass.description == "C" {
-                newText = pitch.note(in: .C).description
-            } else {
-                newText = ""
-            }
-            self.text = newText
+            self.text = KeyboardKey.label(for: pitch, mode: labelMode)
         } else {
             self.text = text
         }
+            
+    
         self.whiteKeyColor = whiteKeyColor
         self.blackKeyColor = blackKeyColor
         self.pressedColor = pressedColor
         self.flatTop = flatTop
         self.alignment = alignment
         self.isActivatedExternally = isActivatedExternally
+        self.borderWidth = borderWidth
+        self.borderColor = borderColor
+        self.labelMode = labelMode
     }
 
     var pitch: Pitch
@@ -52,6 +75,9 @@ public struct KeyboardKey: View {
     var alignment: Alignment
     var text: String
     var isActivatedExternally: Bool
+    var borderWidth: CGFloat
+    var borderColor: Color
+    var labelMode: KeyLabelMode
 
     var keyColor: Color {
         if isActivatedExternally || isActivated {
@@ -105,10 +131,51 @@ public struct KeyboardKey: View {
             isWhite ? 0.5 : 0
     }
 
+    static func label(for pitch: Pitch, mode: KeyLabelMode) -> String {
+        let note = pitch.note(in: .C)
+        let letter = note.noteClass.description /// e.g. "C", "D#"
+        let octave = "\(note.octave)"
+
+        switch mode {
+            case .none:
+                return ""
+
+            case .lettersWhite where note.accidental == .natural:
+                return letter
+            case .lettersBlack where note.accidental != .natural:
+                return letter
+            case .lettersAll:
+                return letter
+
+            case .lettersWhiteWithOctave where note.accidental == .natural:
+                return letter + octave
+            case .lettersBlackWithOctave where note.accidental != .natural:
+                return letter + octave
+            case .lettersAllWithOctave:
+                return letter + octave
+
+            case .onlyC:
+                return letter == "C"? "C" : ""
+            case .onlyMiddleC:
+                return (letter == "C" && note.octave == 4) ? "C" : ""
+            case .onlyDo:
+                return letter == "C" ? "Do" : ""
+            case .onlyMiddleCDo:
+                return (letter == "C" && note.octave == 4) ? "Do" : ""
+            case .solfege:
+                let solfegeMap = ["C": "Do", "D": "Re", "E": "Mi", "F": "Fa", "G": "Sol", "A": "La", "B": "Ti"]
+                return solfegeMap[letter] ?? ""
+            /* Uncomment later, want to make sure all cases are accounted for
+            default:
+                return ""
+            */
+        }
+    }
+
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: alignment) {
-                Rectangle()
+                RoundedRectangle()
                     .foregroundColor(keyColor)
                     .padding(.top, topPadding(proxy.size))
                     .padding(.leading, leadingPadding(proxy.size))
@@ -116,10 +183,17 @@ public struct KeyboardKey: View {
                     .padding(.top, negativeTopPadding(proxy.size))
                     .padding(.leading, negativeLeadingPadding(proxy.size))
                     .padding(.trailing, 0.5)
-                Text(text)
-                    .font(Font(.init(.system, size: relativeFontSize(in: proxy.size))))
-                    .foregroundColor(textColor)
-                    .padding(relativeFontSize(in: proxy.size) / 3.0)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: relativeCornerRadius(in: proxy.size))
+                            .inset(by: borderWidth / 2)
+                            .stroke(borderColor, lineWidth: borderWidth)
+                    )
+                if !text.isEmpty {
+                    Text(text)
+                        .font(Font(.init(.system, size: relativeFontSize(in: proxy.size))))
+                        .foregroundColor(textColor)
+                        .padding(relativeFontSize(in: proxy.size) / 3.0)
+                }
             }
         }
     }
