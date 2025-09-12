@@ -14,6 +14,14 @@ public struct Keyboard<Content>: View where Content: View {
     var noteOn: (Pitch, CGPoint) -> Void
     var noteOff: (Pitch) -> Void
     var layout: KeyboardLayout
+    var borderWidth: CGFloat
+    var borderColor: Color
+    var whiteKeyColor: Color
+    var blackKeyColor: Color
+    var whitePressedColor: Color
+    var blackPressedColor: Color
+    var flatTop: Bool
+    var alignment: Alignment
 
     /// Initialize the keyboard
     /// - Parameters:
@@ -22,6 +30,15 @@ public struct Keyboard<Content>: View where Content: View {
     ///   - noteOn: Closure to perform when a key is pressed
     ///   - noteOff: Closure to perform when a note ends
     ///   - content: View defining how to render a specific key
+    ///   - borderWidth: lifted from KeyboardKey
+    ///   - borderColor: lifted from KeyboardKey
+    ///   - whiteKeyColor: lifted from KeyboardKey
+    ///   - blackKeyColor: lifted from KeyboardKey
+    ///   - whitePressedColor: lifted from KeyboardKey
+    ///   - blackPressedColor: lifted from KeyboardKey
+    ///   - flatTop: lifted from KeyboardKey
+    ///   - alignment: lifted from KeyboardKey
+    
     public init(layout: KeyboardLayout = .piano(pitchRange: Pitch(60) ... Pitch(72)),
                 latching: Bool = false,
                 noteOn: @escaping (Pitch, CGPoint) -> Void = { _, _ in },
@@ -93,38 +110,65 @@ public extension Keyboard where Content == KeyboardKey {
     ///   - latching: Latched keys stay on until they are pressed again
     ///   - noteOn: Closure to perform when a key is pressed
     ///   - noteOff: Closure to perform when a note ends
+    ///   - borderWidth: lifted from KeyboardKey
+    ///   - borderColor: lifted from KeyboardKey
+    ///   - whiteKeyColor: lifted from KeyboardKey
+    ///   - blackKeyColor: lifted from KeyboardKey
+    ///   - whitePressedColor: lifted from KeyboardKey
+    ///   - blackPressedColor: lifted from KeyboardKey
+    ///   - flatTop: lifted from KeyboardKey
+    ///   - alignment: lifted from KeyboardKey
     init(layout: KeyboardLayout = .piano(pitchRange: Pitch(60) ... Pitch(72)),
          latching: Bool = false,
          noteOn: @escaping (Pitch, CGPoint) -> Void = { _, _ in },
-         noteOff: @escaping (Pitch) -> Void = { _ in })
+         noteOff: @escaping (Pitch) -> Void = { _ in },
+         borderWidth: CGFloat = 0,
+         borderColor: Color = .gray,
+         whiteKeyColor: Color = .white,
+         blackKeyColor: Color = .black,
+         whitePressedColor: Color = .red,
+         blackPressedColor: Color = .red,
+         flatTop: Bool? = nil,
+         alignment: Alignment? = nil)
     {
         self.layout = layout
         self.latching = latching
         self.noteOn = noteOn
         self.noteOff = noteOff
+        self.borderWidth = borderWidth
+        self.borderColor = borderColor
+        self.whiteKeyColor = whiteKeyColor
+        self.blackKeyColor = blackKeyColor
+        self.whitePressedColor = whitePressedColor
+        self.blackPressedColor = blackPressedColor
 
-        var alignment: Alignment = .bottom
-
-        var flatTop = false
         switch layout {
         case .guitar:
-            alignment = .center
+            self.alignment = alignment ?? .center
+            self.flatTop = flatTop ?? false    
         case .isomorphic:
-            alignment = .bottom
+            self.alignment = alignment ?? .bottom
+            self.flatTop = flatTop ?? false
         case .piano:
-            flatTop = true
+            self.flatTop = flatTop ?? true
+            self.alignment = alignment ?? .bottom
         case .verticalIsomorphic:
-            alignment = .trailing
+            self.alignment = alignment ?? .trailing
+            self.flatTop = flatTop ?? false
         case .verticalPiano:
-            flatTop = true
-            alignment = .trailing
+            self.flatTop = flatTop ?? true
+            self.alignment = alignment ?? .trailing
         }
         content = {
             KeyboardKey(
                 pitch: $0,
                 isActivated: $1,
-                flatTop: flatTop,
-                alignment: alignment
+                flatTop: self.flatTop,
+                alignment: self.alignment,
+                whiteKeyColor: self.whiteKeyColor,
+                blackKeyColor: self.blackKeyColor,
+                whitePressedColor: self.whitePressedColor,
+                blackPressedColor: self.blackPressedColor
             )
         }
     }
