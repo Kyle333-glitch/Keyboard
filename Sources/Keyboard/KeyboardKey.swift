@@ -38,7 +38,8 @@ public struct KeyboardKey: View {
                 text: String = "unset",
                 whiteKeyColor: Color = .white,
                 blackKeyColor: Color = .black,
-                pressedColor: Color = .red,
+                whitePressedColor: Color = .red,
+                blackPressedColor: Color = .red,
                 flatTop: Bool = false,
                 alignment: Alignment = .bottom,
                 isActivatedExternally: Bool = false,
@@ -57,7 +58,8 @@ public struct KeyboardKey: View {
     
         self.whiteKeyColor = whiteKeyColor
         self.blackKeyColor = blackKeyColor
-        self.pressedColor = pressedColor
+        self.whitePressedColor = whitePressedColor
+        self.blackPressedColor = blackPressedColor
         self.flatTop = flatTop
         self.alignment = alignment
         self.isActivatedExternally = isActivatedExternally
@@ -70,7 +72,8 @@ public struct KeyboardKey: View {
     var isActivated: Bool
     var whiteKeyColor: Color
     var blackKeyColor: Color
-    var pressedColor: Color
+    var whitePressedColor: Color
+    var blackPressedColor: Color
     var flatTop: Bool
     var alignment: Alignment
     var text: String
@@ -81,9 +84,9 @@ public struct KeyboardKey: View {
 
     var keyColor: Color {
         if isActivatedExternally || isActivated {
-            return pressedColor
+            return isWhite ? whitePressedColor : blackPressedColor
         }
-        return pitch.note(in: .C).accidental == .natural ? whiteKeyColor : blackKeyColor
+        return isWhite ? whiteKeyColor : blackKeyColor
     }
 
     var isWhite: Bool {
@@ -91,7 +94,7 @@ public struct KeyboardKey: View {
     }
 
     var textColor: Color {
-        return pitch.note(in: .C).accidental == .natural ? blackKeyColor : whiteKeyColor
+        return isWhite ? blackKeyColor : whiteKeyColor
     }
 
     func minDimension(_ size: CGSize) -> CGFloat {
