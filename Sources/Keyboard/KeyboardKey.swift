@@ -158,7 +158,7 @@ public struct KeyboardKey: View {
                 return letter + octave
 
             case .onlyC:
-                return letter == "C"? "C" : ""
+                return letter == "C" ? "C" : ""
             case .onlyMiddleC:
                 return (letter == "C" && note.octave == 4) ? "C" : ""
             case .onlyDo:
@@ -168,17 +168,17 @@ public struct KeyboardKey: View {
             case .solfege:
                 let solfegeMap = ["C": "Do", "D": "Re", "E": "Mi", "F": "Fa", "G": "Sol", "A": "La", "B": "Ti"]
                 return solfegeMap[letter] ?? ""
-            /* Uncomment later, want to make sure all cases are accounted for
+            
             default:
                 return ""
-            */
+            
         }
     }
 
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: alignment) {
-                RoundedRectangle()
+                RoundedRectangle(cornerSize: CGSize(width: relativeCornerRadius(in: proxy.size), height: relativeCornerRadius(in: proxy.size))
                     .foregroundColor(keyColor)
                     .padding(.top, topPadding(proxy.size))
                     .padding(.leading, leadingPadding(proxy.size))
