@@ -163,12 +163,12 @@ public extension Keyboard where Content == KeyboardKey {
             KeyboardKey(
                 pitch: $0,
                 isActivated: $1,
-                flatTop: self.flatTop,
-                alignment: self.alignment,
                 whiteKeyColor: self.whiteKeyColor,
                 blackKeyColor: self.blackKeyColor,
                 whitePressedColor: self.whitePressedColor,
-                blackPressedColor: self.blackPressedColor
+                blackPressedColor: self.blackPressedColor,
+                flatTop: self.flatTop,
+                alignment: self.alignment
             )
         }
     }
