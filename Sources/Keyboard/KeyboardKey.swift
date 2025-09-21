@@ -178,7 +178,7 @@ public struct KeyboardKey: View {
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: alignment) {
-                RoundedRectangle(cornerSize: CGSize(width: relativeCornerRadius(in: proxy.size), height: relativeCornerRadius(in: proxy.size))
+                RoundedRectangle(cornerSize: CGSize(width: relativeCornerRadius(in: proxy.size), height: relativeCornerRadius(in: proxy.size)))
                     .foregroundColor(keyColor)
                     .padding(.top, topPadding(proxy.size))
                     .padding(.leading, leadingPadding(proxy.size))
