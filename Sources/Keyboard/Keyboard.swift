@@ -159,16 +159,23 @@ public extension Keyboard where Content == KeyboardKey {
             self.flatTop = flatTop ?? true
             self.alignment = alignment ?? .trailing
         }
-        content = {
+        let flatTopValue = self.flatTop
+        let alignmentValue = self.alignment
+        let whiteKeyColorValue = self.whiteKeyColor
+        let blackKeyColorValue = self.blackKeyColor
+        let whitePressedColorValue = self.whitePressedColor
+        let blackPressedColorValue = self.blackPressedColor
+
+        self.content = { pitch, isActivated in
             KeyboardKey(
-                pitch: $0,
-                isActivated: $1,
-                whiteKeyColor: self.whiteKeyColor,
-                blackKeyColor: self.blackKeyColor,
-                whitePressedColor: self.whitePressedColor,
-                blackPressedColor: self.blackPressedColor,
-                flatTop: self.flatTop,
-                alignment: self.alignment
+                pitch: pitch,
+                isActivated: isActivated,
+                whiteKeyColor: whiteKeyColorValue,
+                blackKeyColor: blackKeyColorValue,
+                whitePressedColor: whitePressedColorValue,
+                blackPressedColor: blackPressedColorValue,
+                flatTop: flatTopValue,
+                alignment: alignmentValue
             )
         }
     }
