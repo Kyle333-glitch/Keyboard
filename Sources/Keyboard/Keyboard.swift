@@ -139,12 +139,12 @@ public extension Keyboard where Content == KeyboardKey {
             KeyboardKey(
                 pitch: pitch,
                 isActivated: isActivated,
-                whiteKeyColor: whiteKeyColorValue,
-                blackKeyColor: blackKeyColorValue,
-                whitePressedColor: whitePressedColorValue,
-                blackPressedColor: blackPressedColorValue,
-                flatTop: flatTopValue,
-                alignment: alignmentValue
+                whiteKeyColor: whiteKeyColor,
+                blackKeyColor: blackKeyColor,
+                whitePressedColor: whitePressedColor,
+                blackPressedColor: blackPressedColor,
+                flatTop: flatTop ?? false,
+                alignment: alignment ?? .center
             )
         }
         self.borderWidth = borderWidth
@@ -171,12 +171,5 @@ public extension Keyboard where Content == KeyboardKey {
             self.flatTop = flatTop ?? true
             self.alignment = alignment ?? .trailing
         }
-        let flatTopValue = self.flatTop
-        let alignmentValue = self.alignment
-        let whiteKeyColorValue = self.whiteKeyColor
-        let blackKeyColorValue = self.blackKeyColor
-        let whitePressedColorValue = self.whitePressedColor
-        let blackPressedColorValue = self.blackPressedColor
-
     }
 }
