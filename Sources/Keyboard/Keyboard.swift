@@ -14,6 +14,15 @@ public struct Keyboard<Content>: View where Content: View {
     var noteOn: (Pitch, CGPoint) -> Void
     var noteOff: (Pitch) -> Void
     var layout: KeyboardLayout
+    var borderWidth: CGFloat = 0
+    var borderColor: Color = .gray
+    var whiteKeyColor: Color = .white
+    var blackKeyColor: Color = .black
+    var whitePressedColor: Color = .red
+    var blackPressedColor: Color = .red
+    var flatTop: Bool = false
+    var alignment: Alignment = .center
+    /*
     var borderWidth: CGFloat
     var borderColor: Color
     var whiteKeyColor: Color
@@ -22,6 +31,7 @@ public struct Keyboard<Content>: View where Content: View {
     var blackPressedColor: Color
     var flatTop: Bool
     var alignment: Alignment
+    */
 
     /// Initialize the keyboard
     /// - Parameters:
