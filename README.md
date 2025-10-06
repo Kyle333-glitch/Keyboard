@@ -37,5 +37,6 @@ Swift Playgrounds:
 3. Select `Swift Package`
 4. Paste the URL of this project into the Package URL link field and press return:
    ```text
-   https://github.com/Kyle333-glitch/Keyboard```
+   https://github.com/Kyle333-glitch/Keyboard
+   ```
 5. Tap `Add to App Playground`.
