@@ -30,6 +30,10 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 ## Install
 
 Install using Swift Package Manager.
-In Swift Playgrounds,
-1. Add Swift Package
-2. Paste `https://github.com/Kyle333-glitch/Keyboard` into the link field
+
+Swift Playgrounds:
+1. In the project, open the sidebar.
+2. Tap the New Document button.
+3. Select `Swift Package`
+4. Paste ```texthttps://github.com/Kyle333-glitch/Keyboard``` into the Package URL link field and press return.
+5. Tap `Add to App Playground`.
