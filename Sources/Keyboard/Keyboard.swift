@@ -20,6 +20,7 @@ public struct Keyboard<Content>: View where Content: View {
     var blackKeyColor: Color = .black
     var whitePressedColor: Color = .red
     var blackPressedColor: Color = .red
+    var pressedColor: Color?
     var flatTop: Bool = false
     var alignment: Alignment = .center
     /*
@@ -138,6 +139,7 @@ public extension Keyboard where Content == KeyboardKey {
          blackKeyColor: Color = .black,
          whitePressedColor: Color = .red,
          blackPressedColor: Color = .red,
+         pressedColor: Color? = nil,
          flatTop: Bool? = nil,
          alignment: Alignment? = nil)
     {
@@ -161,8 +163,8 @@ public extension Keyboard where Content == KeyboardKey {
         self.borderColor = borderColor
         self.whiteKeyColor = whiteKeyColor
         self.blackKeyColor = blackKeyColor
-        self.whitePressedColor = whitePressedColor
-        self.blackPressedColor = blackPressedColor
+        self.whitePressedColor = pressedColor ?? whitePressedColor
+        self.blackPressedColor = pressedColor ?? blackPressedColor
 
         switch layout {
         case .guitar:
