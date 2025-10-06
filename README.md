@@ -31,7 +31,7 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 
 Install using Swift Package Manager.
 
-Swift Playgrounds:
+On Swift Playgrounds:
 1. In the project, open the sidebar.
 2. Tap the New Document button.
 3. Select `Swift Package`
