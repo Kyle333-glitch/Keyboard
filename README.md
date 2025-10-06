@@ -17,7 +17,9 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 
 ## Differences from AudioKit Keyboard
 
+- `whiteKeyColor` and `blackKeyColor` to customize key colors
 - `borderWidth` and `borderColor` for customizable border thickness and color
+- `whitePressedColor`, `blackPressedColor`, and `pressedColor` for customization of the color shown on a pressed key
 - `keyLabelMode` for flexible labeling (letters, octave numbers, solfege, etc.)
 
 ## Goals
