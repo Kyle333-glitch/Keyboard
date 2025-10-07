@@ -20,7 +20,7 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 - `whiteKeyColor` and `blackKeyColor` to customize key colors
 - `borderWidth` and `borderColor` for customizable border thickness and color
 - `whitePressedColor`, `blackPressedColor`, and `pressedColor` for customization of the color shown on a pressed key
-- `keyLabelMode` for flexible labeling (letters, octave numbers, solfege, etc.)
+- `keyLabelMode` enum for flexible labeling (see cases at the bottom)
 
 ## Goals
 
@@ -40,3 +40,13 @@ On Swift Playgrounds:
    https://github.com/Kyle333-glitch/Keyboard
    ```
 5. Tap `Add to App Playground`.
+
+## `keyLabelMode` Cases
+none
+
+lettersWhite(shows the note name for white keys without the ocatve number), lettersBlack, lettersAll
+
+lettersWhiteWithOctave(shows white keys with octave number), lettersBlackWithOctave, lettersAllWithOctave
+
+onlyC(only shows C's, without octave number), onlyMiddleC, onlyDo, onlyMiddleCDo, solfege(Do, Re, Mi, Fa, So, La, Ti, Do)
+
