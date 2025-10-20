@@ -55,7 +55,7 @@ public struct KeyboardKey: View {
                 hapticsOn: Bool = true,
                 hapticsStyle: UIImpactFeedbackGenerator.FeedbackStyle = .medium,
                 allowSliding: Bool = true,
-                tapReleaseTime: TimeIntervale = 0.1)
+                tapReleaseTime: TimeInterval = 0.1)
     {
         self.pitch = pitch
         self.isActivated = isActivated
