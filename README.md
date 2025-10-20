@@ -13,7 +13,7 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 - accurate note name labels on the piano keys given the musical key
 - stylized keys in any color
 - any number of notes, not just limited to octaves
-- compatible with Swift Playgrounds
+- compatible with Xcode and Swift Playgrounds
 
 ## Differences from AudioKit Keyboard
 
@@ -21,6 +21,9 @@ Keyboard aims to be an easy-to-use musical keyboard with:
 - `borderWidth` and `borderColor` for customizable border thickness and color
 - `whitePressedColor`, `blackPressedColor`, and `pressedColor` for customization of the color shown on a pressed key
 - `keyLabelMode` enum for flexible labeling (see cases at the bottom)
+- `hapticsOn` enables or disables haptic feedback when a key is pressed
+- `hapticsStyle` configures the strength and style of the haptic feedback (e.g. `.light`, `.medium`)
+- `allowSliding` determines where users can trigger notes by sliding their finger across adjacent keys, or if each note requires a separate tap
 
 ## Goals
 
