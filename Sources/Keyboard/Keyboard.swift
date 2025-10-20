@@ -1,6 +1,7 @@
 // Copyright AudioKit. All Rights Reserved. Revision History at http://github.com/AudioKit/Keyboard/
 
 import SwiftUI
+import UIKit
 @_exported import Tonic
 
 /// Touch-oriented musical keyboard
@@ -23,6 +24,10 @@ public struct Keyboard<Content>: View where Content: View {
     var pressedColor: Color?
     var flatTop: Bool = false
     var alignment: Alignment = .center
+    var hapticsOn: Bool = true
+    var hapticsStyle: UIImpactFeedbackGenerator.FeedbackStyle = .medium
+    var allowSliding: Bool = true
+    var tapReleaseTime: TimeInterval = 0.1
     /*
     var borderWidth: CGFloat
     var borderColor: Color
@@ -49,6 +54,10 @@ public struct Keyboard<Content>: View where Content: View {
     ///   - blackPressedColor: lifted from KeyboardKey
     ///   - flatTop: lifted from KeyboardKey
     ///   - alignment: lifted from KeyboardKey
+    ///   - hapticsOn: lifted from KeyboardKey
+    ///   - hapticsStyle: lifted from KeyboardKey
+    ///   - allowSliding: lifted from KeyboardKey
+    ///   - tapReleaseTime: lifted from KeyboardKey
     
     public init(layout: KeyboardLayout = .piano(pitchRange: Pitch(60) ... Pitch(72)),
                 latching: Bool = false,
@@ -129,6 +138,11 @@ public extension Keyboard where Content == KeyboardKey {
     ///   - blackPressedColor: lifted from KeyboardKey
     ///   - flatTop: lifted from KeyboardKey
     ///   - alignment: lifted from KeyboardKey
+    ///   - hapticsOn: lifted from KeyboardKey
+    ///   - hapticsStyle: lifted from KeyboardKey
+    ///   - allowSliding: lifted from KeyboardKey
+    ///   - tapReleaseTime: lifted from KeyboardKey
+    
     init(layout: KeyboardLayout = .piano(pitchRange: Pitch(60) ... Pitch(72)),
          latching: Bool = false,
          noteOn: @escaping (Pitch, CGPoint) -> Void = { _, _ in },
@@ -141,7 +155,11 @@ public extension Keyboard where Content == KeyboardKey {
          blackPressedColor: Color = .red,
          pressedColor: Color? = nil,
          flatTop: Bool? = nil,
-         alignment: Alignment? = nil)
+         alignment: Alignment? = nil,
+         hapticsOn: Bool = true,
+         hapticsStyle: UIImpactFeedbackGenerator.FeedbackStyle = .medium,
+         allowSliding: Bool = true,
+         tapReleaseTime: TimeInterval = 0.1)
     {
         self.layout = layout
         self.latching = latching
@@ -156,7 +174,11 @@ public extension Keyboard where Content == KeyboardKey {
                 whitePressedColor: whitePressedColor,
                 blackPressedColor: blackPressedColor,
                 flatTop: flatTop ?? false,
-                alignment: alignment ?? .center
+                alignment: alignment ?? .center,
+                hapticsOn: hapticsOn,
+                hapticsStyle: hapticsStyle,
+                allowSliding: allowSliding,
+                tapReleaseTime: tapReleaseTime
             )
         }
         self.borderWidth = borderWidth
@@ -165,6 +187,10 @@ public extension Keyboard where Content == KeyboardKey {
         self.blackKeyColor = blackKeyColor
         self.whitePressedColor = pressedColor ?? whitePressedColor
         self.blackPressedColor = pressedColor ?? blackPressedColor
+        self.hapticsOn = hapticsOn
+        self.hapticsStyle = hapticsStyle
+        self.allowSliding = allowSliding
+        self.tapReleaseTime = tapReleaseTime
 
         switch layout {
         case .guitar:
