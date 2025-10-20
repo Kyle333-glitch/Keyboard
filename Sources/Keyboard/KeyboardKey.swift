@@ -217,7 +217,9 @@ public struct KeyboardKey: View {
                 }
             }
                 .contentShape(Rectangle())
-                .if(allowSliding) { view in
+                .if(
+                    allowSliding,
+                    transform: { view in
                     view.gesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged { value in
@@ -246,7 +248,9 @@ public struct KeyboardKey: View {
                                 }         
                             }
                     )
-                } elseTransform: { view in
+                }
+                
+                elseTransform: { view in
                     view.onTapGesture{
                         isPressed = true
                         if hapticsOn {
@@ -260,6 +264,7 @@ public struct KeyboardKey: View {
                         }
                     }                  
                 }
+                )
         }
     }
 }
