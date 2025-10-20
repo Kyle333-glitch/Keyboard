@@ -47,7 +47,7 @@ On Swift Playgrounds:
 ## `keyLabelMode` Cases
 none
 
-lettersWhite(shows the note name for white keys without the ocatve number), lettersBlack, lettersAll
+lettersWhite(shows the note name for white keys without the octave number), lettersBlack, lettersAll
 
 lettersWhiteWithOctave(shows white keys with octave number), lettersBlackWithOctave, lettersAllWithOctave
 
