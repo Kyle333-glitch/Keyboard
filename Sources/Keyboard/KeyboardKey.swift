@@ -1,6 +1,7 @@
 // Copyright AudioKit. All Rights Reserved. Revision History at http://github.com/AudioKit/Keyboard/
 
 import SwiftUI
+import UIKit
 import Tonic
 
 public enum KeyLabelMode {
@@ -23,6 +24,7 @@ public enum KeyLabelMode {
 }
 /// A default visual representation for a key.
 public struct KeyboardKey: View {
+    @State private var isPressed = false
     /// Initialize the keyboard key
     /// - Parameters:
     ///   - pitch: Pitch assigned to the key
@@ -33,6 +35,10 @@ public struct KeyboardKey: View {
     ///   - borderWidth: Width of border around each individual key
     ///   - borderColor: Color of borderWidth
     ///   - labelMode: How and what keys should be labeled
+    ///   - hapticsOn: Whether haptics should be on or off
+    ///   - hapticsStyle: Strength of haptics
+    ///   - allowSliding: whether or not you can slide your fingers across keys to play them
+    ///   - tapReleaseTime: How long after release from key is note off
     public init(pitch: Pitch,
                 isActivated: Bool,
                 text: String = "unset",
@@ -45,7 +51,11 @@ public struct KeyboardKey: View {
                 isActivatedExternally: Bool = false,
                 borderWidth: CGFloat = 0,
                 borderColor: Color = Color.black,
-                labelMode: KeyLabelMode = .none)
+                labelMode: KeyLabelMode = .none,
+                hapticsOn: Bool = true,
+                hapticsStyle: UIImpactFeedbackGenerator.FeedbackStyle = .medium,
+                allowSliding: Bool = true,
+                tapReleaseTime: TimeIntervale = 0.1)
     {
         self.pitch = pitch
         self.isActivated = isActivated
@@ -66,6 +76,10 @@ public struct KeyboardKey: View {
         self.borderWidth = borderWidth
         self.borderColor = borderColor
         self.labelMode = labelMode
+        self.hapticsOn = hapticsOn
+        self.hapticsStyle = hapticsStyle
+        self.allowSliding = allowSliding
+        self.tapReleaseTime = tapReleaseTime
     }
 
     var pitch: Pitch
@@ -81,7 +95,11 @@ public struct KeyboardKey: View {
     var borderWidth: CGFloat
     var borderColor: Color
     var labelMode: KeyLabelMode
-
+    var hapticsOn: Bool
+    var hapticsStyle: UIImpactFeedbackGenerator.FeedbackStyle
+    var allowSliding: Bool
+    var tapReleaseTime: TimeInterval
+    
     var keyColor: Color {
         if isActivatedExternally || isActivated {
             return isWhite ? whitePressedColor : blackPressedColor
@@ -198,6 +216,64 @@ public struct KeyboardKey: View {
                         .padding(relativeFontSize(in: proxy.size) / 3.0)
                 }
             }
+                .contentShape(Rectangle())
+                .if(allowSliding) { view in
+                    view.gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                let frame = proxy.frame(in: .global)
+                                if frame.contains(value.location) {
+                                    if !isPressed {
+                                        isPressed = true
+                                        if hapticsOn {
+                                            let generator = UIImpactFeedbackGenerator(style: hapticsStyle)
+                                            generator.impactOccurred()
+                                        }
+                                        //this is note on
+                                    }
+                                } else {
+                                    if isPressed {
+                                        isPressed = false
+                                        //this is note off
+                                    }
+                                }
+                            }
+                        
+                            .onEnded { _ in 
+                                if isPressed {
+                                    isPressed = false
+                                    //this is note off
+                                }         
+                            }
+                    )
+                } elseTransform: { view in
+                    view.onTapGesture{
+                        isPressed = true
+                        if hapticsOn {
+                            let generator = UIImpactFeedbackGenerator(style: hapticsStyle)
+                            generator.impactOccurred()
+                        }
+                        //note on
+                        DispatchQueue.main.asyncAfter(deadline: .now() + tapReleaseTime) {
+                            isPressed = false
+                            //note off
+                        }
+                    }                  
+                }
+        }
+    }
+}
+
+extension View {
+    @ViewBuilder func `if`<Content: View>(
+        _ condition: Bool,
+        transform: (Self) -> Content,
+        elseTransform: (Self) -> Content
+    ) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            elseTransform(self)
         }
     }
 }
