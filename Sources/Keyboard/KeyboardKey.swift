@@ -248,7 +248,7 @@ public struct KeyboardKey: View {
                                 }         
                             }
                     )
-                }
+                },
                 
                 elseTransform: { view in
                     view.onTapGesture{
