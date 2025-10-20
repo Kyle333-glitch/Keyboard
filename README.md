@@ -53,3 +53,7 @@ lettersWhiteWithOctave(shows white keys with octave number), lettersBlackWithOct
 
 onlyC(only shows C's, without octave number), onlyMiddleC, onlyDo, onlyMiddleCDo, solfege(Do, Re, Mi, Fa, So, La, Ti, Do)
 
+## License
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.  
+Based on [AudioKit Keyboard](https://github.com/AudioKit/AudioKit).
+
