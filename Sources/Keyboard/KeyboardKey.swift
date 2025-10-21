@@ -217,68 +217,52 @@ public struct KeyboardKey: View {
                 }
             }
                 .contentShape(Rectangle())
-                .if(
-                    allowSliding,
-                    transform: { view in
-                    view.gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { value in
-                                let frame = proxy.frame(in: .global)
-                                if frame.contains(value.location) {
-                                    if !isPressed {
-                                        isPressed = true
-                                        if hapticsOn {
-                                            let generator = UIImpactFeedbackGenerator(style: hapticsStyle)
-                                            generator.impactOccurred()
+                Group {
+                    if allowSliding {
+                        self
+                            .gesture(
+                                DragGesture(minimumDistance: 0)
+                                    .onChanged { value in
+                                        let frame = proxy.frame(in: .global)
+                                        if frame.contains(value.location) {
+                                            if !isPressed {
+                                                isPressed = true
+                                                if hapticsOn {
+                                                    let generator = UIImpactFeedbackGenerator(style: hapticsStyle)
+                                                    generator.impactOccurred()
+                                                }
+                                                
+                                            }
+                                        } else {
+                                            if isPressed {
+                                                isPressed = false
+                                            }
                                         }
-                                        //this is note on
                                     }
-                                } else {
-                                    if isPressed {
-                                        isPressed = false
-                                        //this is note off
+
+                                    .onEnded { _ in
+                                        if isPressed {
+                                            isPressed = false
+                                        }     
                                     }
+                            )
+                    } else {
+                        self
+                            .onTapGesture {
+                                isPressed = true
+                                if hapticsOn {
+                                    let generator = UIImpactFeedbackGenerator(style: hapticsStyle)
+                                    generator.impactOccurred()
+                                }
+
+                                DispatchQueue.main.asyncAfter(deadline: .now() + tapReleaseTime) {
+                                    isPressed = false
                                 }
                             }
-                        
-                            .onEnded { _ in 
-                                if isPressed {
-                                    isPressed = false
-                                    //this is note off
-                                }         
-                            }
-                    )
-                },
-                
-                elseTransform: { view in
-                    view.onTapGesture{
-                        isPressed = true
-                        if hapticsOn {
-                            let generator = UIImpactFeedbackGenerator(style: hapticsStyle)
-                            generator.impactOccurred()
-                        }
-                        //note on
-                        DispatchQueue.main.asyncAfter(deadline: .now() + tapReleaseTime) {
-                            isPressed = false
-                            //note off
-                        }
-                    }                  
+                    }
                 }
-                )
         }
     }
 }
 
-extension View {
-    @ViewBuilder func `if`<Content: View>(
-        _ condition: Bool,
-        transform: (Self) -> Content,
-        elseTransform: (Self) -> Content
-    ) -> some View {
-        if condition {
-            transform(self)
-        } else {
-            elseTransform(self)
-        }
-    }
-}
+
