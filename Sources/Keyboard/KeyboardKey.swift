@@ -211,7 +211,7 @@ public struct KeyboardKey: View {
                     )
                 if !text.isEmpty {
                     Text(text)
-                        .font(Font(.init(.system, size: relativeFontSize(in: proxy.size))))
+                        .font(.system(size: relativeFontSize(in: proxy.size)))
                         .foregroundColor(textColor)
                         .padding(relativeFontSize(in: proxy.size) / 3.0)
                 }
